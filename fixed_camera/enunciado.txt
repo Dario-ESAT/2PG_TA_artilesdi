@@ -1,0 +1,28 @@
+
+- Convertir nuestra maya X,Y,Z en una maya con normales: X,Y,Z,Xn,Yn,Zn
+  Podeis prescindir de usar arrays floats puros y usar structuras en su lugar
+
+     struct MeshVtx
+     {
+       float x,y,z;
+       float xn,yn,zn;
+     };
+
+- Adaptar la carga de la maya al nuevo tipo. Lo unico necesario es adaptar el
+  glVertexAttribPointer existente y añadir uno nuevo para el atributo de las normales:
+
+    glVertexAttribPointer(1,...
+    glEnableVertexAttribArray(1);
+
+
+- Adaptar el vertex shader para que lea las normales de la maya y las pase al fragment shader
+   Para ello se debe:
+    - Crear una variable "in" que use "layout" con el atributo 1 
+    - Crear una variable "oput" con la normal 
+
+- Modificar el fragment shader para asegurarnos de que hemos recibido la normal, mostrandolo como color del triangulo
+   - Creamos una variable "in" de la normal, usando el mismo tipo y nombre de "out" del vertex shader
+   - Lo asignamos al FragColor, adaptando el tipo (vec3 -> vec4)
+   
+- Sustituir el triangulo por un cubo que se muestre correctamente con backface culling, y tenga normales (compartidas)
+  

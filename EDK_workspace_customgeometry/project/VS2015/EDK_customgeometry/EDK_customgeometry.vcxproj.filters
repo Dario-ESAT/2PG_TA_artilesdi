@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{8733b5e4-22a5-46de-ab3f-5ca0c57bde0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\EDK3">
+      <UniqueIdentifier>{f417cec2-3d7a-42bc-9ca5-31bcb92d44ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\EDK3\dev">
+      <UniqueIdentifier>{e4dc179c-ddff-4e8e-a4c1-b2ab1b2728a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ESAT">
+      <UniqueIdentifier>{85ec947a-471c-448e-9b46-69d7add93aec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\EDK3\dev\framebuffer.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\dev\glew.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\dev\gpumanager.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\dev\opengl.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\dev\program.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\dev\shader.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\dev\buffer.h">
+      <Filter>Include\EDK3\dev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\camera.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\constants.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\drawable.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\geometry.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\matdiffuse.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\matdiffusetexture.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\material.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\materialsettings.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\matpostprocess.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\node.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\ref_ptr.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\referenced.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\rendertarget.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\scoped_array.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\scoped_ptr.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\EDK3\texture.h">
+      <Filter>Include\EDK3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESAT\sprite.h">
+      <Filter>Include\ESAT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESAT\time.h">
+      <Filter>Include\ESAT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESAT\window.h">
+      <Filter>Include\ESAT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESAT\draw.h">
+      <Filter>Include\ESAT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESAT\input.h">
+      <Filter>Include\ESAT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ESAT\math.h">
+      <Filter>Include\ESAT</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\customGeometry\customgeometryexample.cc" />
+  </ItemGroup>
+</Project>

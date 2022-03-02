@@ -1,0 +1,11 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(499,5): warning MSB8004: El directorio Output no termina con una barra diagonal final. Esta instancia de compilación agregará la barra diagonal porque es necesaria para que se pueda evaluar correctamente el directorio Output.
+  custommaterialcube.cc
+E:\ESAT\P_Grafica\EDK_workspace_custommaterial\customMaterial\custommaterialcube.cc(74,50): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+  supermaterial.cc
+E:\ESAT\P_Grafica\EDK_workspace_custommaterial\include\mathlib\vector_3.h(479,13): warning C4244: 'return': conversión de 'double' a 'float'; posible pérdida de datos
+E:\ESAT\P_Grafica\EDK_workspace_custommaterial\include\mathlib\mathlib.h(18,39): warning C4305: 'inicializando': truncamiento de '__int64' a 'int'
+E:\ESAT\P_Grafica\EDK_workspace_custommaterial\include\mathlib\mathlib.h(18,20): warning C4309: 'inicializando': truncamiento de valor constante
+  Generando código...
+E:\ESAT\P_Grafica\EDK_workspace_custommaterial\customMaterial\supermaterial.cc(42): warning C4715: 'SuperMaterial::attribute_at_index': no todas las rutas de acceso de control devuelven un valor
+E:\ESAT\P_Grafica\EDK_workspace_custommaterial\customMaterial\supermaterial.cc(48): warning C4715: 'SuperMaterial::attribute_type_at_index': no todas las rutas de acceso de control devuelven un valor
+  EDK_custommaterial.vcxproj -> E:\ESAT\P_Grafica\EDK_workspace_custommaterial\bin\EDK_custommaterial.exe
