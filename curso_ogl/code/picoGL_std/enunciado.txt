@@ -1,0 +1,28 @@
+
+Queremos ocultar el interfaz de bajo nivel de pintado de picoFL, "raster".
+La funciones a implementar estan comentada en "picoGL.h"
+
+Las tareas a realizar picoGL.cpp:
+
+  - Dotar al modulo picoGL.cpp de su propia instancia de tipo "PicoContext"
+
+  - Implementar el sistema de culling "picoglCullFace", con su ENABLE correspondiente
+
+  - Implementar el sistema de semitransparencia "picoglBlendFunc", con su ENABLLE correspondiente.
+    Hay que tener en cuenta que raster solo admite 2 modos de blending, por lo que solo hay que aceptar las combinaciones correspondientes.
+
+  - Se debe proteger con ASSERTS todo los inputs (lo haremos diferente de OpenGL, que usa programacion defensiva con la funcion glGetError)
+
+  - Implementar picoglDrawTris, usando vertices + indices (esta llamada esta muy simplificada respecto a OGL)
+
+En picoGL.h
+
+  - Eliminar la funcion/hack "picoglGetFramebuffer" de picoGL.h
+
+En example_rings.cpp
+
+  - Eliminar todas las instancias de PicoContext y sustituir su funcionalidad por llamadas a las nuevas funciones
+
+  - Sustituir las llamadas a raster por la funcion "picoglDrawTris"
+ 
+ 

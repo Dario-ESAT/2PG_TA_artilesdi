@@ -1,0 +1,15 @@
+
+- Sobre un fondo azul, dibujar 2 anillos giratorios de 20 segmentos con las siguientes especificaciones
+
+  1er Anillo
+     Radio: de 150.0f a 240.0f
+     Color: verde
+     Configurado para "backface culling"
+     Solido, sin transparencia
+  
+  2o Anillo  
+     Radio: de 220.0f a 280.0f
+     Color: rojo   
+     Configurado para "frontface culling"
+     Transparente al 50%
+

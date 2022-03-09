@@ -155,14 +155,6 @@
     <ClInclude Include="..\..\..\include\ESAT\sprite.h" />
     <ClInclude Include="..\..\..\include\ESAT\time.h" />
     <ClInclude Include="..\..\..\include\ESAT\window.h" />
-    <ClInclude Include="..\..\..\include\mathlib\mathlib.h" />
-    <ClInclude Include="..\..\..\include\mathlib\math_utils.h" />
-    <ClInclude Include="..\..\..\include\mathlib\matrix_2.h" />
-    <ClInclude Include="..\..\..\include\mathlib\matrix_3.h" />
-    <ClInclude Include="..\..\..\include\mathlib\matrix_4.h" />
-    <ClInclude Include="..\..\..\include\mathlib\vector_2.h" />
-    <ClInclude Include="..\..\..\include\mathlib\vector_3.h" />
-    <ClInclude Include="..\..\..\include\mathlib\vector_4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\cubeexample.cc" />

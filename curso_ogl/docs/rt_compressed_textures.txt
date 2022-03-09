@@ -1,0 +1,62 @@
+
+0123456780123456780123456780123456780123456780123456780123456780123456780123456
+
+  Esta guia habla de los formatos de textura comprimidas para tarjeta grafica, 
+que no se deben confundir con los formatos habituales de compresion de graficos 
+como JPG o PNG.
+
+  Estos formatos de textura no se descomprimen en carga; se envian a la VRAM 
+directamente y permanecen alli sin conversion alguina, lo que ahorra entre 1/2 y
+1/8 de la memoria y ademas acelera la ejecucion de los fragment shaders.
+
+  Por contra, no comprimen tanto como los formatos de disco. Por ej. JPEG 
+comprime las imagenes a la mitad de tamaño que DXT, con una calidad claramente
+superior.
+
+  Los formatos dejan el pixel en un tamaño fijo que va desde 4 bpp 
+("bits per pixel") a 8 bpp.
+
+
+Codecs/formatos de compresion
+-----------------------------
+
+* Formatos S3TC (abreviado S3)
+
+Normalmente se usa el nombre DXT+version, pero tambien se le llama BC+version
+en el entorno de DirectX
+
+  -DXT1 (BC1): 4 bpp, soporta alpha channel pero solo 1 bit
+               (ES EL MAS USADO)
+
+  -DXT2-DXT3 (BC2): 8 bpp, soporta alpha channel 4 bits
+
+  -DXT4-DXT5 (BC3): 8 bpp, soporta alpha channel 8 bits
+
+* Formatos 3Dc
+
+ BC4/BC5
+ BC6H/BC7
+
+* Formato PVRTC. 2 y 4 bpp, formato tipo de moviles, calidad superior a DXT
+
+* Formato ETC (Ericsson Texture Compression). Este formato esta especialmente
+  soportado por las plataformas Android
+
+  - ETC1: 4 bpp, soporta alpha hasta 4 bits
+  - ETC2: 4 o 8 bpp, soporta alpha
+
+* Formato ACST (adptive texture compression)
+  Es un formato muy flexible promovido por ARM, de calidad superior a DXT
+
+
+Formatos de fichero
+-------------------
+
+* DDS
+
+Es un formato de fichero que encapsula una imagen en formato DXT1-DXT5 e incluye 
+una cabecera con algunos datos extra.
+
+Muchos programas de edicion como GIMP o Photoshop pueden exportar DDS.
+Es habitual sistema de build de datos de videojuego usar herramientas de lines de 
+comando como "ImageMagik" para convertir automaticamente las texturas a DDS.

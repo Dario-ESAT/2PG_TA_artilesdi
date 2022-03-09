@@ -11,7 +11,7 @@ vec3 light_col = vec3(0,0,1);
 
 void main() {
   vec3 n_normal = normalize(normal);
-  float dotp = dot(n_normal,light_dir);
+  float dotp = max(dot(n_normal,light_dir),0);
 	fragColor = vec4(light_col * dotp, 1.0);
 	
  }

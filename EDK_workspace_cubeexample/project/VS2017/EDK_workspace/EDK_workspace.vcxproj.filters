@@ -19,9 +19,6 @@
     <Filter Include="Include\DarioElMejor">
       <UniqueIdentifier>{35709386-8c0e-4e69-92fb-a8f4575f2a1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Include\mathlib">
-      <UniqueIdentifier>{ea7e8650-a6f9-439b-8c23-3a81bbd4383b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\EDK3\dev\framebuffer.h">
@@ -113,30 +110,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\DarioElMejor\flyingcamera.h">
       <Filter>Include\DarioElMejor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\matrix_4.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\vector_2.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\vector_3.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\vector_4.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\math_utils.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\mathlib.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\matrix_2.h">
-      <Filter>Include\mathlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\mathlib\matrix_3.h">
-      <Filter>Include\mathlib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

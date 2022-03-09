@@ -3,4 +3,7 @@
 *.out
 *.app
 
+*.pdb
+*.tlog
 .vs
+*.png
