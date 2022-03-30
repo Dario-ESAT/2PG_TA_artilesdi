@@ -18,6 +18,14 @@ bool QuadGeometry::bindAttribute(const EDK3::Attribute attribute, unsigned int w
 			false,
 			12
 		);
+	} else if(attribute == EDK3::Attribute::A_UV){
+		EDK3::dev::GPUManager::Instance()->enableVertexAttribute(
+			vertices_.get(),
+			where_to_bind_attribute,
+			EDK3::Type::T_FLOAT_2,
+			false,
+			24
+		);
 	}
 	return true;
 }
@@ -38,47 +46,29 @@ QuadGeometry::QuadGeometry() {
 	
 	static float positions[] = {
 		//Cara arriba
-		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
 	};
 
-	//static float positions[] = {
-	//	//Cara arriba
-	//	-1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-	//	1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-	//	1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-	//	-1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+	static const MeshVtx gMesh[] = {
+	{-1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f},
+	{1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f},
+	{1.0f,  1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f},
+	{-1.0f,  1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f},
+	};
+#define _SF(A)   A,A+1,A+2,A+2,A+3,A+0
+#define _CF(A)   A,A+2,A+1,A+2,A+0,A+3   // Ad-hoc clockwise order change
 
-	//	//Cara abajo
-	//	-1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-	//	1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-	//	1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-	//	-1.0f, -1.0f, -1.0f,0.0f, 1.0f, 0.0f,
-	//};
 	static unsigned int indices[] = {
-		0,2,1,
+		//0,1,2,
+		//0,2,3,
+		//_SF(0),
+		_CF(0),
 	};
 	
-	/*static unsigned int indices[] = {
-		0,4,1,
-		1,4,5,
 
-		1,5,2,
-		2,5,6,
-
-		2,6,3,
-		3,6,7,
-
-		3,7,0,
-		0,7,4,
-
-		3,0,2,
-		2,0,1,
-
-		6,5,4,
-		6,4,7
-	};*/
 
 	EDK3::dev::GPUManager::Instance()->newBuffer(&vertices_);
 	EDK3::dev::GPUManager::Instance()->newBuffer(&indices_);
@@ -88,11 +78,14 @@ QuadGeometry::QuadGeometry() {
 
 
 	vertices_->uploadData((void*)positions, sizeof(positions));
+
 	indices_->uploadData((void*)indices,sizeof(indices));
 
 	vertices_->bind(EDK3::dev::Buffer::kTarget_Vertex_Data);
 
-	bindAttribute(EDK3::Attribute::A_POSITION,0);
+	bindAttribute(EDK3::Attribute::A_POSITION, 0);
+	//bindAttribute(EDK3::Attribute::A_NORMAL, 1);
+	//bindAttribute(EDK3::Attribute::A_UV,2);
 }
 
 QuadGeometry::~QuadGeometry()

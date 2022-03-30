@@ -46,5 +46,8 @@
     <ClInclude Include="deps\sokol_time.h">
       <Filter>Source Files\deps</Filter>
     </ClInclude>
+    <ClInclude Include="deps\dds.h">
+      <Filter>Source Files\deps</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

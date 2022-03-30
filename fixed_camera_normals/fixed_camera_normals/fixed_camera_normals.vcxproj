@@ -147,6 +147,7 @@
     <None Include="vertex.glslv" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="deps\dds.h" />
     <ClInclude Include="deps\glad.h" />
     <ClInclude Include="deps\khrplatform.h" />
     <ClInclude Include="deps\sokol_app.h" />

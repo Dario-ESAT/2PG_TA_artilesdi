@@ -13,11 +13,11 @@ float linear = 0.2;
 float quadratic = 0;
 float cut = cos(100);
 vec3 light_col = vec3(1,1,1);
-vec3 light_dir = vec3(-1,0,0);
+vec3 light_dir = vec3(1,0,0);
 
 
 void main() {
-  vec3 lightPos = vec3(5.0, 0, 0.0);
+  vec3 lightPos = vec3(1.0, 0, 0.0);
   vec3 n_normal = normalize(normal);
 
   vec3 light_to_pixel = normalize(local_pos - lightPos);

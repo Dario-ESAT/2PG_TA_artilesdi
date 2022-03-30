@@ -19,13 +19,14 @@
 // GLAD es una libreria "loader-generator"; OpenGL requiere este tipo de libreria (de la que existen 
 // varias implementaciones dependiendo de la plataforma)
 #include "deps/glad.h"
+#include "deps/dds.h"
 
 //-- SOKOL 
 // Sokol es una libreria simple portable para abrir ventanas
 #define SOKOL_GLCORE33 1
 #define SOKOL_APP_IMPL 1
 #define SOKOL_TIME_IMPL 1
-
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT (0x83F0)
 #include "deps/sokol_app.h"
 #include "deps/sokol_time.h"
 
@@ -34,7 +35,7 @@
 
 static int gWindowWidth = 800;
 static int gWindowHeight = 600;
-
+static unsigned int textureId = -1;
 // ------------------------------------------------------------------------------------
 // Slurp
 
@@ -108,6 +109,68 @@ static void ShadersInit(unsigned int& shader_program,
   glDeleteShader(fragmentShader);
 }
 
+//static unsigned int UploadTexture(unsigned int w, unsigned int h) {
+//    unsigned int* texture = new unsigned int[w * h];
+//
+//    for (unsigned int y = 0; y < h; y++) {
+//        for (unsigned int x = 0; x < w; x++) {
+//            texture[x + y * w] = 0xff000000 | ((x ^ y)) | (x << 16) | (y << 8) ;
+//        }
+//    }
+//
+//    GLuint textureName;
+//    glGenTextures(1, &textureName);
+//    glBindTexture(GL_TEXTURE_2D, textureName);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//
+//
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)texture);
+//    glGenerateMipmap(GL_TEXTURE_2D);
+//
+//    delete texture;
+//    assert(glGetError() == GL_NO_ERROR);
+//
+//    return textureName;
+//}
+
+static unsigned int UploadTexture(const char* filename) {
+    unsigned char* raw_img = ReadSrcCode(filename);
+
+    assert(raw_img[0] == 'D');
+    assert(raw_img[1] == 'D');
+    assert(raw_img[2] == 'S');
+    assert(raw_img[3] == ' ');
+
+    unsigned char* filtered_img = raw_img + 4;
+
+    DDSHeader* DDS_header = (DDSHeader*)filtered_img;
+    
+    filtered_img = filtered_img + sizeof(DDSHeader);
+
+
+    GLuint textureName;
+    glGenTextures(1, &textureName);
+    glBindTexture(GL_TEXTURE_2D, textureName);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+
+    glCompressedTexImage2D(GL_TEXTURE_2D,0,GL_COMPRESSED_RGBA_S3TC_DXT1_EXT, DDS_header->width, DDS_header->height,0,(DDS_header->height * DDS_header->width) / 2,filtered_img);
+    //glGenerateMipmap(GL_TEXTURE_2D);
+
+    free(raw_img);
+    assert(glGetError() == GL_NO_ERROR || "holaaa");
+
+    return textureName;
+}
+
+
+
 // ------------------------------------------------------------------------------------
 // Subir una malla a memoria grafica
 // VBO = Vertex buffer object
@@ -175,35 +238,35 @@ static unsigned int gIndices[] = {
 #else
 
 static const MeshVtx gMesh[] = {
-  {-0.99f, -0.99f, -0.99f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f},
-  {0.99f, -0.99f, -0.99f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f},
-  {0.99f,  0.99f, -0.99f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f},
-  {-0.99f,  0.99f, -0.99f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f},
+  {-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f},
+  {1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f},
+  {1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f},
+  {-1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f},
 
-  {-0.99f, -0.99f,  0.99f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f},
-  {0.99f, -0.99f,  0.99f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f},
-  {0.99f,  0.99f,  0.99f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f},
-  {-0.99f,  0.99f,  0.99f,  0.0f,  0.0f,  1.0, 0.0f, 1.0f},
+  {-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f},
+  {1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f},
+  {1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f},
+  {-1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0, 0.0f, 1.0f},
 
-  {-0.99f,  0.99f,  0.99f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f},
-  {-0.99f,  0.99f, -0.99f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f},
-  {-0.99f, -0.99f, -0.99f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f},
-  {-0.99f, -0.99f,  0.99f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f},
+  {-1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f},
+  {-1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f},
+  {-1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f},
+  {-1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f},
 
-  {0.99f,  0.99f,  0.99f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f},
-  {0.99f,  0.99f, -0.99f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f},
-  {0.99f, -0.99f, -0.99f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f},
-  {0.99f, -0.99f,  0.99f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f},
+  {1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f},
+  {1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f},
+  {1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f},
+  {1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f},
 
-  {-0.99f, -0.99f, -0.99f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f},
-  {0.99f, -0.99f, -0.99f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f},
-  {0.99f, -0.99f,  0.99f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f},
-  {-0.99f, -0.99f,  0.99f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f},
+  {-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f},
+  {1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f},
+  {1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f},
+  {-1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f},
 
-  {-0.99f,  0.99f, -0.99f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f},
-  {0.99f,  0.99f, -0.99f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f},
-  {0.99f,  0.99f,  0.99f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f},
-  {-0.99f,  0.99f,  0.99f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f},
+  {-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f},
+  {1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f},
+  {1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f},
+  {-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f},
 };
 
 #define _SF(A)   A,A+1,A+2,A+2,A+3,A+0
@@ -212,10 +275,10 @@ static const MeshVtx gMesh[] = {
 static const unsigned int gIndices[] = {
   _CF(0),
   _SF(4),
-  _SF(8),
-  _CF(12),
-  _SF(16),
-  _CF(20)
+  //_SF(8),
+  //_CF(12),
+  //_SF(16),
+  //_CF(20)
 };
 
 #endif
@@ -237,6 +300,8 @@ void onInit()
   ShadersInit(gShaderProgram, vertex_shader_source, fragment_shader_source);
 
   UploadMesh(gMesh, sizeof(gMesh), gIndices, sizeof(gIndices), gVBO0, gVAO0, gEBO0);
+  
+  textureId = UploadTexture("data/blue_eye.dds");
 
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
@@ -252,8 +317,7 @@ void onInit()
 
 // -----------------------------------------------------------------------------------------------------------
 
-void onFrame()
-{
+void onFrame() {
   gWindowWidth = sapp_width();
   gWindowHeight = sapp_height();
   double time = stm_ms(stm_now());
@@ -275,7 +339,7 @@ void onFrame()
 
   glUseProgram(gShaderProgram);
 
-  glUniform4f(gLocationColor, 0.2f, 0.2f, 1.0f, 1.0f);
+  glUniform4f(gLocationColor, 0.2f, 0.2f, 1.0f, 1.0f); 
   //glUniform4f(gLocationColor, 1.0f, 1.0f, 1.0f, 1.0f);
   glUniform3f(gLocationPointLightPos, 1.0f, 2.0f, -5.0f);
 
@@ -287,6 +351,8 @@ void onFrame()
   glUniformMatrix4fv(projLoc, 1, GL_FALSE, &projection[0][0]);
 
   glBindVertexArray(gVAO0);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, textureId);
   // Draw elements dibuja primitivas indexadas (en nuestros caso, mallas de triangulos)
   glDrawElements(GL_TRIANGLES, sizeof(gIndices)/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 
@@ -307,6 +373,8 @@ void onEnd()
 // Inicializaciones: abrir ventana, etc
 // La libreria Sokol exige  este nombre de funcion para la inicializacion
 // ------------------------------------------------------------------------------------
+
+
 
 sapp_desc sokol_main(int argc, char** argv)
 {

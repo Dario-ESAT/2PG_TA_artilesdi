@@ -5,5 +5,7 @@
 
 *.pdb
 *.tlog
+*.log
+*.obj
 .vs
 *.png

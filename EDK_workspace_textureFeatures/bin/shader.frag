@@ -7,14 +7,14 @@ in vec3 pos;
 in vec2 uv;
 in vec4 customData;
 
-void main() { 
-	fragColor = texture(u_colorTexture, vec2(uv.x * 6, uv.y * 6 + customData.x * 0.0003));
-}
+// void main() { 
+// 	fragColor = texture(u_colorTexture, vec2(uv.x * 6, uv.y * 6 + customData.x * 0.0003));
+// }
 
 //Ej 1 -----
-//void main() { 
-//	fragColor = texture(u_colorTexture, uv);		
-// }
+void main() { 
+	fragColor = texture(u_colorTexture, uv);		
+}
 //-----
 
 

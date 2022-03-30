@@ -1,5 +1,0 @@
-﻿  quad_geometry.cc
-E:\ESAT\P_Grafica\EDK_workspace_quadgeometry\src\quad_geometry.h(4,10): fatal error C1083: No se puede abrir el archivo incluir: 'EDK3/geometry.h': No such file or directory
-  main.cc
-E:\ESAT\P_Grafica\EDK_workspace_quadgeometry\src\main.cc(1,10): fatal error C1083: No se puede abrir el archivo incluir: 'ESAT/window.h': No such file or directory
-  Generando código...

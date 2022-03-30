@@ -7,6 +7,8 @@
 class QuadGeometry : public EDK3::Geometry
 {
 public:
+
+
 	EDK3::ref_ptr<EDK3::dev::Buffer> vertices_;
 	EDK3::ref_ptr<EDK3::dev::Buffer> indices_;
 
@@ -20,6 +22,11 @@ public:
 	~QuadGeometry();
 
 private:	
+	struct MeshVtx{
+		float x, y, z;
+		float vx, vy, vz;
+		float u, v;
+	};
 };
 
 #endif

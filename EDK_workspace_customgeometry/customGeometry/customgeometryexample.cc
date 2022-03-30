@@ -30,6 +30,7 @@ void prepare(GameState *state) {
 		-1.0f, -1.0f, 0.0f,
 		-1.0f, 1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
 		////Cara arriba
 		//-1.0f, 1.0f, 1.0f,
 		//1.0f, 1.0f, 1.0f,
@@ -70,8 +71,8 @@ void prepare(GameState *state) {
 
 	// generate idices
 	unsigned int indices[] = { 
-		0,2,1
-        //0,4,1,
+		0,2,1,
+    1,2,3,
         //1,4,5,
 
         //1,5,2,
