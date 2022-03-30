@@ -46,7 +46,9 @@ en el entorno de DirectX
   - ETC2: 4 o 8 bpp, soporta alpha
 
 * Formato ACST (adptive texture compression)
-  Es un formato muy flexible promovido por ARM, de calidad superior a DXT
+  Es un formato muy flexible promovido por ARM, de calidad superior a DXT,
+  especialmente el formato 8bpp, comparable en calidad a jpg.
+  De momento su adopcion se limita al mundo del movil.
 
 
 Formatos de fichero
