@@ -106,13 +106,18 @@ static void ShadersInit(unsigned int& shader_program,
 
 // ------------------------------------------------------------------------------------
 
-struct MeshVtx
-{
+struct MeshVtx {
   glm::vec3  pos;
   glm::vec2  uv;
 };
 
-static void UploadMesh (const MeshVtx* mesh, int mesh_size,
+struct MeshTangent {
+  MeshVtx p_uv;
+  glm::vec3  Normal;
+  glm::vec3  Tangent;
+};
+
+static void UploadMesh (const MeshTangent* mesh, int mesh_size,
                         const unsigned int* indices, int indices_size,
                         unsigned int& VBO, unsigned int& VAO, unsigned int& EBO)
 {
@@ -128,11 +133,14 @@ static void UploadMesh (const MeshVtx* mesh, int mesh_size,
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_size, indices, GL_STATIC_DRAW);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVtx), (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshTangent), (void*)0);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVtx), (void*)(3 * sizeof(float)));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MeshTangent), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
-
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(MeshTangent), (void*)(5 * sizeof(float)));
+  glEnableVertexAttribArray(2);
+  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(MeshTangent), (void*)(8 * sizeof(float)));
+  glEnableVertexAttribArray(3);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 }
@@ -244,18 +252,47 @@ static int gLocationColor = 0;
 static int gLocationPointLightPos = 0;
 
 static unsigned int gTexDiffuse = -1;
+static unsigned int gTexNormals = -1;
 
 // -----------------------------------------------------------------------------------------------------------
 
 void onInit()
 {
   gladLoadGL();
+  int l = sizeof(gMesh) / sizeof(MeshVtx);
+  MeshTangent* new_mesh = new MeshTangent[l];
+  int indexs = 0;
+  for (int i = 0; i < l; i += 4) {
+    int i0 = gIndices[indexs];
+    int i1 = gIndices[indexs + 1];
+    int i2 = gIndices[indexs + 2];
 
+    glm::vec3 edge1 = gMesh[i1].pos - gMesh[i0].pos;
+    glm::vec3 edge2 = gMesh[i2].pos - gMesh[i0].pos;
+    glm::vec2 deltaUV1 = gMesh[i1].uv - gMesh[i0].uv;
+    glm::vec2 deltaUV2 = gMesh[i2].uv - gMesh[i0].uv;
+    // Obtenemos la normal
+    glm::vec3 N = glm::normalize(glm::cross(edge1, edge2));
+    // Cálculo de la tangente y bitangente
+    float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+    glm::vec3 T(0.0f, 0.0f, 0.0f);
+    T.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+    T.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+    T.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+    T = glm::normalize(T);
+
+    for (int j = 0; j < 4; j++) {
+      new_mesh[i + j].p_uv = gMesh[i + j];
+      new_mesh[i + j].Normal = N;
+      new_mesh[i + j].Tangent = T;
+    }
+    indexs += 6;
+  }
   char* vertex_shader_source = (char*)ReadFile("vertex.glslv");
   char* fragment_shader_source = (char*)ReadFile("fragment.glslf");
   ShadersInit(gShaderProgram, vertex_shader_source, fragment_shader_source);
 
-  UploadMesh(gMesh, sizeof(gMesh), gIndices, sizeof(gIndices), gVBO0, gVAO0, gEBO0);
+  UploadMesh(new_mesh,sizeof(MeshTangent) * l, gIndices, sizeof(gIndices), gVBO0, gVAO0, gEBO0);
 
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
@@ -266,19 +303,23 @@ void onInit()
 
   gLocationColor = glGetUniformLocation(gShaderProgram, "RawColor");
   gLocationPointLightPos = glGetUniformLocation(gShaderProgram, "PointLightPos");
-
   // Texture samplers
-  unsigned int sampler_diffuse = glGetUniformLocation(gShaderProgram, "tex_diffuse");
+  unsigned int sampler_diffuse = glGetUniformLocation(gShaderProgram, "text_diffuse");
+  unsigned int sampler_normals = glGetUniformLocation(gShaderProgram, "text_normals");
   glUniform1i(sampler_diffuse, 0); // Texture unit 0: textura color para luz difusa
+  glUniform1i(sampler_normals, 1); // Texture unit 1: normal map
 
-  unsigned char* dds_diffuse = ReadFile("data/blue_eye.dds");
-  gTexDiffuse = UploadTexture(dds_diffuse);
+  unsigned char* dds_image = ReadFile("data/blue_eye.dds");
+  gTexDiffuse = UploadTexture(dds_image);
 
+  unsigned char* dds_normals = ReadFile("data/wavy.dds");
+  gTexNormals = UploadTexture(dds_normals);
   stm_setup(); // Init time libreria SOKOL
 
   free(vertex_shader_source);
   free(fragment_shader_source);
-  free(dds_diffuse);
+  free(dds_image);
+  free(dds_normals);
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -322,6 +363,8 @@ void onFrame()
   // Activar el canal de sampleo (existen 16)
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, gTexDiffuse);
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, gTexNormals);
 
   // Draw elements dibuja primitivas indexadas (en nuestros caso, mallas de triangulos)
   glDrawElements(GL_TRIANGLES, sizeof(gIndices)/sizeof(unsigned int), GL_UNSIGNED_INT, 0);

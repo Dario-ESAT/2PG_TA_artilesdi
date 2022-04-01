@@ -2,10 +2,12 @@
 *.exe
 *.out
 *.app
-
+*.recipe
 *.pdb
+*.ilk
 *.tlog
 *.log
-*.obj
-.vs
 *.png
+*.obj
+*.idb
+.vs
