@@ -56,7 +56,8 @@ static unsigned char* ReadFile(const char* filename)
 
 static char infoLog[512];
 
-// Imprime los posibles errores de compilacion o linkado
+// Imprime los posibles errores de compilacion o linkado		[5]	32 ' '	char
+
 static void CheckGPUErrors(unsigned int code, const char* str, bool link)
 {
   int success = 0;
@@ -312,7 +313,7 @@ void onInit()
   unsigned char* dds_image = ReadFile("data/blue_eye.dds");
   gTexDiffuse = UploadTexture(dds_image);
 
-  unsigned char* dds_normals = ReadFile("data/wavy.dds");
+  unsigned char* dds_normals = ReadFile("data/wavy2.dds");
   gTexNormals = UploadTexture(dds_normals);
   stm_setup(); // Init time libreria SOKOL
 
@@ -347,7 +348,7 @@ void onFrame()
 
   glUseProgram(gShaderProgram);
 
-  glUniform4f(gLocationColor, 0.2f, 0.2f, 1.0f, 1.0f);
+  glUniform4f(gLocationColor, 1.2f, 1.2f, 1.0f, 1.0f);
   //glUniform4f(gLocationColor, 1.0f, 1.0f, 1.0f, 1.0f);
   glUniform3f(gLocationPointLightPos, 1.0f, 2.0f, -5.0f);
 
